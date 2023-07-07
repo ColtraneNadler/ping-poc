@@ -7,7 +7,7 @@ dotenv.config()
 const app = express();
 
 const isAuthenticated = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const userResponse = await axios.get('https://api.pingfederate.example.com/userinfo', {
+  const userResponse = await axios.get('https://api.ping.example.com/userinfo', {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
@@ -22,9 +22,9 @@ const isAuthenticated = (req: express.Request, res: express.Response, next: expr
 };
 
 // Endpoint for initiating the authentication flow
-app.get('/auth/pingfederate', (req, res) => {
-  const redirectUri = process.env.BASE_URI + '/auth/pingfederate/callback'; 
-  const authEndpoint = 'https://pingfederate.example.com/as/authorization.oauth2';  
+app.get('/auth/ping', (req, res) => {
+  const redirectUri = process.env.BASE_URI + '/auth/ping/callback'; 
+  const authEndpoint = 'https://ping.example.com/as/authorization.oauth2';  
   const clientId = process.env.PING_CLIENT_ID // Replace with your client ID
   const scope = 'openid profile'; // Replace with the required scopes
 
@@ -39,11 +39,11 @@ app.get('/auth/pingfederate', (req, res) => {
   res.redirect(authorizationUrl);
 });
 
-app.get('/auth/pingfederate/callback', async (req, res) => {
-  const tokenEndpoint = 'https://pingfederate.example.com/as/token.oauth2'; // PingFederate token endpoint
+app.get('/auth/ping/callback', async (req, res) => {
+  const tokenEndpoint = 'https://ping.example.com/as/token.oauth2'; //
   const clientId = process.env.PING_CLIENT_ID; 
   const clientSecret = process.env.PING_CLIENT_SECRET; 
-  const redirectUri = process.env.BASE_URI + '/auth/pingfederate/callback'; 
+  const redirectUri = process.env.BASE_URI + '/auth/ping/callback'; 
 
   const code = req.query.code as string;
 
