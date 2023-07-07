@@ -24,7 +24,7 @@ const isAuthenticated = (req: express.Request, res: express.Response, next: expr
 // Endpoint for initiating the authentication flow
 app.get('/auth/pingfederate', (req, res) => {
   const redirectUri = process.env.BASE_URI + '/auth/pingfederate/callback'; 
-  const authEndpoint = 'https://pingfederate.example.com/as/authorization.oauth2'; // Replace with your PingFederate authorization endpoint
+  const authEndpoint = 'https://pingfederate.example.com/as/authorization.oauth2';  
   const clientId = process.env.PING_CLIENT_ID // Replace with your client ID
   const scope = 'openid profile'; // Replace with the required scopes
 
