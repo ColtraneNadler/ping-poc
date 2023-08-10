@@ -3,11 +3,19 @@ import axios from 'axios';
 import querystring from 'querystring';
 import dotenv from 'dotenv';
 dotenv.config()
+import {Request,Response,NextFunction} from 'express';
 
 const app = express();
 
-const isAuthenticated = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const userResponse = await axios.get('https://api.ping.example.com/userinfo', {
+declare namespace Express {
+  interface Request {
+    user: any
+  }
+}
+
+const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
+  let accessToken = req.headers['Authorization'];
+	const userResponse = await axios.get('https://auth.pingone.com/f5561d77-6f62-4dd3-b7d9-581d9aa5ffaa/as/userinfo', {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
@@ -23,8 +31,8 @@ const isAuthenticated = (req: express.Request, res: express.Response, next: expr
 
 // Endpoint for initiating the authentication flow
 app.get('/auth/ping', (req, res) => {
-  const redirectUri = process.env.BASE_URI + '/auth/ping/callback'; 
-  const authEndpoint = 'https://ping.example.com/as/authorization.oauth2';  
+  const redirectUri = process.env.BASE_URL + '/auth/ping/callback'; 
+  const authEndpoint = process.env.ENDPOINT 
   const clientId = process.env.PING_CLIENT_ID // Replace with your client ID
   const scope = 'openid profile'; // Replace with the required scopes
 
@@ -36,6 +44,7 @@ app.get('/auth/ping', (req, res) => {
   });
 
   const authorizationUrl = `${authEndpoint}?${queryParams}`;
+  console.log(authorizationUrl);
   res.redirect(authorizationUrl);
 });
 
@@ -72,6 +81,10 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
   res.send('Welcome to the Tunecast dashboard!');
 });
 
+app.post('/hook', (req, res) => {
+	console.log('PAYLOAD',req.body);
+	res.status(201).json({ success: true });
+})
 // Start the server
 app.listen(process.env.PORT, () => {
   console.log('Server running on port 3000');
