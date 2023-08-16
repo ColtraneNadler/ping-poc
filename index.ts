@@ -82,6 +82,8 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
 });
 
 app.post('/hook', (req, res) => {
+  if(!req.headers['authorization'] || req.headers['authorization'] !== 'Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NSIsInVzZXJuYW1lIjoibmFyYXlhbiIsImlhdCI6MTY5MjE4NzI3MiwiZXhwIjoxNjkyMTkwODcyfQ.pJfimMYMdstRNjBx-o6g1WaxkCUBbFOruWoulM9U5Cs') return res.status(400).json({ success: false });
+
 	console.log('PAYLOAD',req.body);
 	res.status(201).json({ success: true });
 })

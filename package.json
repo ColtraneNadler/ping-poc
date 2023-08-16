@@ -6,13 +6,14 @@
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
     "querystring": "^0.2.1"
   },
   "name": "ping",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-	"build": "tsc --build",
+    "build": "tsc --build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
