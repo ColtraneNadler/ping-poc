@@ -82,13 +82,14 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
 });
 
 app.post('/hook', (req, res) => {
-  if(!req.headers['authorization'] || req.headers['authorization'] !== `Bearer: ${process.env.SAMPLE_BEARER}`) return res.status(400).json({ success: false });
+  console.log(req.headers)
+  if(!req.headers['authorization'] || req.headers['authorization'] !== `Bearer ${process.env.SAMPLE_BEARER}`) return res.status(400).json({ success: false });
 
 	console.log('PAYLOAD',req.body);
 	res.status(201).json({ success: true });
 })
 // Start the server
 app.listen(process.env.PORT, () => {
-  console.log('Server running on port 3000');
+  console.log('Server running on port', process.env.PORT);
 });
 
