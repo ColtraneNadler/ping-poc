@@ -6,6 +6,8 @@ dotenv.config()
 import {Request,Response,NextFunction} from 'express';
 
 const app = express();
+app.use(express.json());
+
 
 declare namespace Express {
   interface Request {
